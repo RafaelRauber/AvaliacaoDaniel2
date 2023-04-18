@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+	<h:head>
+		<h:outputStylesheet library="css" name="estilo.css" />
+		<h:outputStylesheet library="css" name="resumo.css" />
+	
+		<title>
+			<ui:insert name="titulo"/>
+		</title>
+	</h:head>
+	
+	<h:body>
+		
+		<h:form>
+			<p:menubar styleClass="menu">
+				<p:menuitem>
+					<p:commandLink value="vendas" action="vendas?faces-redirect=true" styleClass="link"/>
+				</p:menuitem>
+				
+				<p:menuitem>
+					<p:commandLink value="produtos" action="produtos?faces-redirect=true" styleClass="link"/>
+				</p:menuitem>
+						
+				<p:menuitem>
+					<p:commandLink value="clientes" action="clientes?faces-redirect=true" styleClass="link"/>				
+				</p:menuitem>
+			</p:menubar>
+		</h:form>
+			
+		<ui:insert name="conteudo"/>
+		
+		<h:form>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="modal">
+				<p:commandButton value="Confirmar" type="button" styleClass="ui-confirmdialog-yes modal"/>
+				<p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no modal"/>
+			</p:confirmDialog>
+		</h:form>
+		
+	</h:body>
+
+</html>

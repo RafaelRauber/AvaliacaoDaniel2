@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> <ui:composition
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="titulo">Venda</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="resumo">
+
+			<div class="header">Resumo de compra</div>
+
+			<div class="section"> 
+				<div>Cliente: #{vendaController.ultimaVenda.cliente.nome}</div> 
+				<div>Endereço: #{vendaController.ultimaVenda.cliente.endereco}</div> 
+				<div>Telefone: #{vendaController.ultimaVenda.cliente.telefone}</div> 
+			</div>
+
+			<div class="section"> 
+			<div>Produtos:</div> 
+				<ul> 
+					<ui:repeat value="#{vendaController.ultimaVenda.produtos}" var="produto">
+						<li>#{produto.nome} - R$ #{produto.preco}</li>
+					</ui:repeat> 
+				</ul> 
+			</div>
+
+			<div class="total">Total: R$ #{vendaController.totalUltimaVenda}</div>
+
+			<div class="footer"> Número do cupom fiscal: 1234567890<br /> Data: 18/04/2023 Hora: 15:30 </div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition> </html>

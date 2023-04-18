@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+	<ui:composition template="/resources/template/template.xhtml">
+		
+		<ui:define name="titulo">Venda</ui:define>
+		
+		<ui:define name="conteudo">
+
+			<h:form id="cadastroVenda">
+				<p:growl id="mensagem" life="2500"/>  
+				
+				<p:fieldset legend="Venda" styleClass="caixa">
+			        <h:panelGrid columns="3">
+			        
+			            <p:outputLabel value="Cliente"/>
+						<p:selectOneMenu value="#{vendaController.clienteIdSelecionado}" effect="fade"  filter="true" filterMatchMode="startsWith" styleClass="caixa-select"> 
+	                    	<f:selectItem itemLabel="Selecione..." />
+						    <f:selectItems value="#{vendaController.listaDeClientes}" var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente.id}" />
+						</p:selectOneMenu>
+						<p:commandButton value="Selecionar" actionListener="#{vendaController.selecionarCliente}" update="tabelaDeProdutos mensagem"/>
+			           
+			            <p:outputLabel value="Produtos" />
+				        <p:selectOneMenu value="#{vendaController.produtoIdSelecionado}" effect="fade"  filter="true" filterMatchMode="startsWith" styleClass="caixa-select"> 
+	                        <f:selectItem itemLabel="Selecione..."/>
+				            <f:selectItems value="#{vendaController.listaDeProdutos}" var="produto" itemLabel="#{produto.nome}" itemValue="#{produto.id}"/>
+				        </p:selectOneMenu>
+			            <p:commandButton value="Selecionar" actionListener="#{vendaController.selecionarProduto}" update="tabelaDeProdutos mensagem"/>
+			           
+			        </h:panelGrid>
+	    		</p:fieldset>
+			</h:form>
+			
+			<h:form id="tabelaDeProdutos">
+				<p:fieldset legend="Lista de Produtos" styleClass="caixa">
+					<p:dataTable value="#{vendaController.carrinho}" var="produto" emptyMessage="Nenhum Produto selecionado">
+						
+						<p:column headerText="Código">
+							<h:outputText value="#{produto.codigo}"/>
+						</p:column>
+						
+						<p:column headerText="Nome">
+							<h:outputText value="#{produto.nome}"/>
+						</p:column>
+						
+						<p:column headerText="Preço">
+							<h:outputText value="R$ #{produto.preco}"/>
+						</p:column>
+						
+						<p:column headerText="Ações">
+					        <p:commandButton icon="ui-icon-trash" action="#{vendaController.removerDoCarrinho(produto)}" update="tabelaDeProdutos cadastroVenda:mensagem" process="@this">
+					       		<p:confirm header="Confirmação" message="Remover do carrinho?"/>
+					        </p:commandButton>
+					    </p:column>
+						
+					</p:dataTable>
+					
+					<h:panelGrid columns="2" styleClass="info-venda">
+					
+						<h:outputLabel value="Cliente: "/>
+						<h:outputText value="#{vendaController.venda.cliente.nome}"/>
+						
+						<h:outputLabel value="Total: "/>
+						<h:outputText value="#{vendaController.total}"/>
+						
+					</h:panelGrid>
+					
+					<p:commandButton value="Cancelar venda" action="#{vendaController.limparCarrinho}" update="tabelaDeProdutos cadastroVenda:mensagem">
+						<p:confirm header="Confirmação" message="Cancelar venda?"/>
+					</p:commandButton>
+						
+					<p:commandButton value="Finalizar venda" action="#{vendaController.finalizarVenda}" update="cadastroVenda:mensagem @form"  styleClass="botoes" >
+						<p:confirm header="Confirmação" message="Finalizar venda?"/>
+					</p:commandButton>
+					
+				</p:fieldset>
+				
+			</h:form>
+			
+		</ui:define>
+		
+	</ui:composition>
+
+</html>

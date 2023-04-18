@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head/>
+
+	<ui:composition template="/resources/template/template.xhtml">
+
+	<ui:define name="titulo">Produtos</ui:define>
+		
+		<ui:define name="conteudo">
+		
+			<h:form id="cadastroProduto">
+				
+				<p:growl id="mensagem" life="2500"/>  
+				
+				<p:fieldset legend="Novo produto" styleClass="caixa">
+					<h:panelGrid columns="2">
+						
+						<p:outputLabel value="Código*"/>
+						<p:inputText value="#{produtoController.produto.codigo}"/>
+						
+						<p:outputLabel value="Nome*"/>
+						<p:inputText value="#{produtoController.produto.nome}"/>
+						
+						<p:outputLabel value="Descrição"/>
+						<p:inputText value="#{produtoController.produto.descricao}"/>
+						
+						<p:outputLabel value="Preço*"/>
+						<p:inputNumber value="#{produtoController.produto.preco}"/>
+							
+						<p:outputLabel/>
+						<p:commandButton value="Confirmar" actionListener="#{produtoController.cadastrar}" process="@form" update="@form :tabelaProdutos"/>
+						
+					</h:panelGrid>
+				</p:fieldset>
+			</h:form>
+			
+			<h:form id="tabelaProdutos">
+				<p:dataTable emptyMessage="Nenhum produto encontrado" value="#{produtoController.listaDeProdutos}" var="produto"
+				paginator="true" paginatorPosition="bottom" rows="5" styleClass="caixa">
+				
+					<p:column headerText="ID">
+				        <h:outputText value="#{produto.id}" />
+				    </p:column>
+				    
+				    <p:column headerText="Código">
+				        <h:outputText value="#{produto.codigo}"/>
+				    </p:column>
+				    
+				    <p:column headerText="Nome">
+				        <h:outputText value="#{produto.nome}" />
+				    </p:column>
+				    
+				    <p:column headerText="Descrição">
+				        <h:outputText value="#{produto.descricao}" />
+				    </p:column>
+				    
+				    <p:column headerText="Preço">
+				        <h:outputText value="#{produto.preco}" />
+				    </p:column>
+				    
+				    <p:column headerText="Ações">
+					    <p:commandButton icon="fa fa-pencil" actionListener="#{produtoController.editar(produto)}" update="cadastroProduto">
+					    	<p:confirm header="Confirmação" message="Editar Cliente?"/>
+					    </p:commandButton>
+					    	
+					    <p:commandButton icon="fa fa-trash" actionListener="#{produtoController.excluir(produto)}" update="tabelaProdutos cadastroProduto:mensagem">
+					    	<p:confirm header="Confirmação" message="Remover do Cliente?"/>
+					    </p:commandButton>
+					</p:column>
+				    
+				</p:dataTable>
+			</h:form>
+		
+		</ui:define>
+		
+	</ui:composition>
+
+</html>
